@@ -151,7 +151,7 @@ class HomeActivity extends StatelessWidget{
                 leading: Icon(Icons.phone),
                 onTap:(){
                   MySnackBar("Phone", context);
-                })
+                })//nahidhasan
 
           ],
         ),
