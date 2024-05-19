@@ -30,6 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  intl: ^0.19.0
+
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -58,6 +61,7 @@ flutter:
   # the material Icons class.
 
 
+    uses-material-design: true
     assets:
       - assets/images/profile_picture.jpg
 

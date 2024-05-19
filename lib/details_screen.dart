@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class DetailsScreen extends StatelessWidget {
   final String imagePath;
 
-  DetailsScreen({required this.imagePath});
+  const DetailsScreen({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image Details'),
+        title: const Text('Image Details'),
       ),
       body: Center(
         child: Column(
@@ -21,13 +21,13 @@ class DetailsScreen extends StatelessWidget {
               width: 200,
               fit: BoxFit.cover,
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Image Title',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Description of the image goes here...',
               style: TextStyle(fontSize: 16),
             ),

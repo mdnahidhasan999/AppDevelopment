@@ -12,14 +12,16 @@ class GalleryScreen extends StatelessWidget {
     // Add more image paths as needed
   ];
 
+  GalleryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gallery'),
+        title: const Text('Gallery'),
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, // Number of grid columns
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 8.0,

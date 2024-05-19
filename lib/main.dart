@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'live_class/watertracker.dart';
 
 void main() {
-  runApp(ProfileApp());
+  runApp(const ProfileApp());
 }
 
 class ProfileApp extends StatelessWidget {
+  const ProfileApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,7 +15,7 @@ class ProfileApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
