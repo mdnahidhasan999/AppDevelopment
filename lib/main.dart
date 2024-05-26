@@ -11,10 +11,10 @@ class ProfileApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Profile Information',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      title: 'Profile Information',
       home: const HomeScreen(),
     );
   }
