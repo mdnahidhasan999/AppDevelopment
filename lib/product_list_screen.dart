@@ -37,11 +37,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   Widget _buildProductItem() {
     return ListTile(
-      // leading: Image.network(
-      //   'https://static.nike.com/a/images/t_default/3d0dd096-7c9d-495c-bf41-adbb0b9ad737/sabrina-1-team-basketball-shoes-bVkR71.png',
-      //   height: 60,
-      //   width: 60,
-      // ),
+      leading: const CircleAvatar(backgroundImage: AssetImage('assets/images/profile_picture.jpg')),
       title: const Text('Product name'),
       subtitle: const Wrap(
         spacing: 16,
