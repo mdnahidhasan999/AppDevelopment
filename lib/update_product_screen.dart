@@ -12,6 +12,8 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   final TextEditingController _unitPriceTEController = TextEditingController();
   final TextEditingController _quantityTEController = TextEditingController();
   final TextEditingController _totalPriceTEController = TextEditingController();
+  final TextEditingController _productCodeTEController =
+      TextEditingController();
   final TextEditingController _imageTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -73,6 +75,19 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                   height: 16,
                 ),
                 TextFormField(
+                  controller: _productCodeTEController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      hintText: 'Product Code', labelText: 'Product Code'),
+                  validator: (String? value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Write your Product Code';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
                   controller: _totalPriceTEController,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -123,5 +138,4 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
     _imageTEController.dispose();
     super.dispose();
   }
-
 }
