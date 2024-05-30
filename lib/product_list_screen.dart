@@ -19,7 +19,6 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getProductList();
   }
@@ -38,7 +37,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         child: ListView.separated(
           itemCount: productList.length,
           itemBuilder: (context, index) {
-            return _buildProductItem(productList[1]);
+            return _buildProductItem(productList[index]);
           },
           separatorBuilder: (_, __) => const Divider(),
         ),
@@ -59,9 +58,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
     _getProductListInProgress = true;
     setState(() {});
     productList.clear();
-    const String getProductListUrl =
+    const String productListUrl =
         'https://crud.teamrabbil.com/api/v1/ReadProduct';
-    Uri uri = Uri.parse(getProductListUrl);
+    Uri uri = Uri.parse(productListUrl);
 
     Response response = await get(uri);
     print(response.statusCode);
@@ -69,23 +68,23 @@ class _ProductListScreenState extends State<ProductListScreen> {
     if (response.statusCode == 200) {
       final decodedData = jsonDecode(response.body);
 
-      final jsonproductList = decodedData['date'];
+      final jsonproductList = decodedData['data'];
 
       for (Map<String, dynamic> p in jsonproductList) {
         Product product = Product(
           id: p['_id'] ?? '',
-          productName: p['ProductName'] ?? '',
-          productCode: p['ProductCode'] ?? '',
+          productName: p['ProductName'] ?? 'Unknown',
+          productCode: p['ProductCode'] ?? 'Unknown',
           image: p['Img'] ?? '',
           unitPrice: p['UnitPrice'] ?? '',
-          quantity: p['QTY'] ?? '',
+          quantity: p['Qty'] ?? 'Unknown',
           totalPrice: p['TotalPrice'] ?? '',
         );
         productList.add(product);
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text(' Get Product List Failed!')));
+          const SnackBar(content: Text('Get Product List Failed!')));
     }
     _getProductListInProgress = false;
     setState(() {
@@ -158,14 +157,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 }
 
 class Product {
-  // 'id' : "",
-  // 'ProductName' : "",
-  // 'ProductCode' : "",
-  // 'Img' : "",
-  // 'UnitPrice' : "210",
-  // 'Qty' : "",
-  // 'TotalPrice' : "",
-  // 'CreatedDate' : "",
+
   final String id;
   final String productName;
   final String productCode;
