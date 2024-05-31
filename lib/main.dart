@@ -79,7 +79,7 @@ class HomeActivity extends StatelessWidget{
         ],
 
         onTap: (int index){
-          if(index==0){
+          if(index==0) {
 
             MySnackBar("I am home Menu", context);
 
