@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:practiceapp/product.dart';
 
 class UpdateProductScreen extends StatefulWidget {
-  const UpdateProductScreen({super.key});
+  const UpdateProductScreen({super.key, required this.product});
+
+  final Product product;
 
   @override
   State<UpdateProductScreen> createState() => _UpdateProductScreenState();
@@ -14,9 +20,22 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
   final TextEditingController _totalPriceTEController = TextEditingController();
   final TextEditingController _productCodeTEController =
       TextEditingController();
+
   final TextEditingController _imageTEController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _updateProductInProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameTEController.text = widget.product.productName;
+    _unitPriceTEController.text = widget.product.unitPrice;
+    _quantityTEController.text = widget.product.quantity;
+    _totalPriceTEController.text = widget.product.totalPrice;
+    _productCodeTEController.text = widget.product.productCode;
+    _imageTEController.text = widget.product.image;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,17 +135,60 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
-                    },
-                    child: const Text('Update'))
+                Visibility(
+                  visible: _updateProductInProgress == false,
+                  replacement: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _updateProduct();
+                        }
+                      },
+                      child: const Text('Update')),
+                )
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _updateProduct() async {
+    _updateProductInProgress = true;
+    setState(() {});
+    Map<String, String> inputData = {
+      "Img": _imageTEController.text,
+      "ProductCode": _productCodeTEController.text,
+      "ProductName": _nameTEController.text,
+      "Qty": _quantityTEController.text,
+      "TotalPrice": _totalPriceTEController.text,
+      "UnitPrice": _unitPriceTEController.text
+    };
+    String updateProductUrl =
+        'https://crud.teamrabbil.com/api/v1/UpdateProduct/${widget.product.id}';
+
+    Uri uri = Uri.parse(updateProductUrl);
+
+    Response response = await post(uri,
+        headers: {'content-type': 'application/json'},
+        body: jsonEncode(inputData));
+
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Product has been Updated')),
+      );
+      Navigator.pop(context , true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Update Product failed Try Again')),
+      );
+    }
   }
 
   @override
