@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 const colorRed = Color.fromRGBO(231, 28, 36, 1);
 const colorGreen = Color.fromRGBO(33, 191, 115, 1);
@@ -44,7 +45,7 @@ DecoratedBox AppDropDownStyle(child) {
 ButtonStyle AppButtonStyle() {
   return ElevatedButton.styleFrom(
       elevation: 1,
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)));
 }
@@ -58,10 +59,36 @@ Ink SuccessButtonChild(ButtonText){
     child: Container(
       height: 45,
       alignment: Alignment.center,
-      child: Text(ButtonText, style: TextStyle(
+      child: Text(ButtonText, style: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 15
       ), ),
     ),
+  );
+}
+
+
+
+
+void ErrorToast(msg){
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: colorRed,
+      textColor: colorWhite,
+      fontSize: 16.0
+  );
+}
+void SuccessToast(msg){
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: colorGreen,
+      textColor: colorWhite,
+      fontSize: 16.0
   );
 }

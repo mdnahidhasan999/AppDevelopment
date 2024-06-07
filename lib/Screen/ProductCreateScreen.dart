@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../RestAPI/RestClient.dart';
 import '../Style/style.dart';
 
 class ProductCreateScreen extends StatefulWidget {
@@ -10,6 +11,46 @@ class ProductCreateScreen extends StatefulWidget {
 }
 
 class _ProductCreateScreenState extends State<ProductCreateScreen> {
+  Map<String, String> FormValues = {
+    "Img": "",
+    "ProductCode": "",
+    "ProductName": "",
+    "Qty": "",
+    "TotalPrice": "",
+    "UnitPrice": ""
+  };
+
+  InputOnChange(Mapkey, Textvalue) {
+    setState(() {
+      FormValues.update(Mapkey, (value) => Textvalue);
+    });
+  }
+
+  FormOnSubmit() async{
+    if(FormValues['Img']!.isEmpty){
+      ErrorToast('Image Required !');
+
+    }else if(FormValues['ProductCode']!.isEmpty){
+      ErrorToast('Product Code Required !');
+
+    }else if(FormValues['ProductName']!.isEmpty){
+      ErrorToast('Product Name Required !');
+
+    }else if(FormValues['Qty']!.isEmpty){
+      ErrorToast('Product Qty Required !');
+
+    }else if(FormValues['TotalPrice']!.isEmpty){
+      ErrorToast('Product Total Price Required !');
+
+    }else if(FormValues['UnitPrice']!.isEmpty){
+      ErrorToast('Product Unit Price Required !');
+
+    }
+    else{
+      await ProductCreateRequest(FormValues);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,35 +66,45 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
               child: Column(
                 children: [
                   TextField(
-                    onChanged: (value) {},
+                    onChanged: (Textvalue) {
+                      InputOnChange("ProductName", Textvalue);
+                    },
                     decoration: AppInputDecoration('Product Name'),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextField(
-                    onChanged: (value) {},
+                    onChanged: (Textvalue) {
+                      InputOnChange("ProductCode", Textvalue);
+                    },
                     decoration: AppInputDecoration('Product Code'),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextField(
-                    onChanged: (value) {},
+                    onChanged: (Textvalue) {
+                      InputOnChange("Img", Textvalue);
+                    },
                     decoration: AppInputDecoration('Product Image'),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextField(
-                    onChanged: (value) {},
+                    onChanged: (Textvalue) {
+                      InputOnChange("UnitPrice", Textvalue);
+                    },
                     decoration: AppInputDecoration('Unit Price'),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   TextField(
-                    onChanged: (value) {},
+                    onChanged: (Textvalue) {
+                      InputOnChange("TotalPrice", Textvalue);
+                    },
                     decoration: AppInputDecoration('Total Price'),
                   ),
                   const SizedBox(
@@ -61,7 +112,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   ),
                   AppDropDownStyle(
                     DropdownButton(
-                      value: "",
+                      value: FormValues['Qty'],
                       items: const [
                         DropdownMenuItem(
                           value: '',
@@ -84,16 +135,20 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                           child: Text('4 pcs'),
                         ),
                       ],
-                      onChanged: (value) {},
+                      onChanged: (Textvalue) {
+                        InputOnChange("Qty", Textvalue);
+                      },
                       underline: Container(),
                       isExpanded: true,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     child: ElevatedButton(
                         style: AppButtonStyle(),
-                        onPressed: () {},
+                        onPressed: () {
+                          FormOnSubmit();
+                        },
                         child: SuccessButtonChild('Submit')),
                   )
                 ],
