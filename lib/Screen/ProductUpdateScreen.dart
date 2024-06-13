@@ -4,14 +4,16 @@ import '../RestAPI/RestClient.dart';
 import '../Style/style.dart';
 import 'ProductGridViewScreen.dart';
 
-class ProductCreateScreen extends StatefulWidget {
-  const ProductCreateScreen({super.key});
+class Productupdatescreen extends StatefulWidget {
+  final Map productItem;
+
+  const Productupdatescreen(this.productItem);
 
   @override
-  State<ProductCreateScreen> createState() => _ProductCreateScreenState();
+  State<Productupdatescreen> createState() => _ProductupdatescreenState();
 }
 
-class _ProductCreateScreenState extends State<ProductCreateScreen> {
+class _ProductupdatescreenState extends State<Productupdatescreen> {
   Map<String, String> FormValues = {
     "Img": "",
     "ProductCode": "",
@@ -20,6 +22,25 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
     "TotalPrice": "",
     "UnitPrice": ""
   };
+  bool Loading = false;
+
+  @override
+  void initState() {
+    setState(() {
+      FormValues.update("Img", (value) => widget.productItem['Img']);
+      FormValues.update(
+          "ProductCode", (value) => widget.productItem['ProductCode']);
+      FormValues.update(
+          "ProductName", (value) => widget.productItem['ProductName']);
+      FormValues.update("Qty", (value) => widget.productItem['Qty']);
+      FormValues.update(
+          "TotalPrice", (value) => widget.productItem['TotalPrice']);
+      FormValues.update(
+          "UnitPrice", (value) => widget.productItem['UnitPrice']);
+    });
+
+    super.initState();
+  }
 
   InputOnChange(Mapkey, Textvalue) {
     setState(() {
@@ -41,10 +62,14 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
     } else if (FormValues['UnitPrice']!.isEmpty) {
       ErrorToast('Product Unit Price Required !');
     } else {
-      await productCreateRequest(FormValues);Navigator.pushAndRemoveUntil(
+      setState(() {
+        Loading = true;
+      });
+      await productUpdateRequest(FormValues, widget.productItem['_id']);
+      Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => productGridViewScreen()),
-              (Route route) => false);
+          (Route route) => false);
     }
   }
 
@@ -52,7 +77,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Product'),
+        title: const Text('Update Product'),
       ),
       body: Stack(
         children: [
@@ -62,7 +87,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-                  TextField(
+                  TextFormField(
+                    initialValue: FormValues['ProductName'],
                     onChanged: (Textvalue) {
                       InputOnChange("ProductName", Textvalue);
                     },
@@ -71,7 +97,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextField(
+                  TextFormField(
+                    initialValue: FormValues['ProductCode'],
                     onChanged: (Textvalue) {
                       InputOnChange("ProductCode", Textvalue);
                     },
@@ -80,7 +107,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextField(
+                  TextFormField(
+                    initialValue: FormValues['Img'],
                     onChanged: (Textvalue) {
                       InputOnChange("Img", Textvalue);
                     },
@@ -89,7 +117,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextField(
+                  TextFormField(
+                    initialValue: FormValues['UnitPrice'],
                     onChanged: (Textvalue) {
                       InputOnChange("UnitPrice", Textvalue);
                     },
@@ -98,7 +127,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextField(
+                  TextFormField(
+                    initialValue: FormValues['TotalPrice'],
                     onChanged: (Textvalue) {
                       InputOnChange("TotalPrice", Textvalue);
                     },

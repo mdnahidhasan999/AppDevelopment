@@ -50,27 +50,22 @@ ButtonStyle AppButtonStyle() {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)));
 }
 
-Ink SuccessButtonChild(ButtonText){
+Ink SuccessButtonChild(ButtonText) {
   return Ink(
     decoration: BoxDecoration(
-      color: colorGreen,
-      borderRadius: BorderRadius.circular(6)
-    ),
+        color: colorGreen, borderRadius: BorderRadius.circular(6)),
     child: Container(
       height: 45,
       alignment: Alignment.center,
-      child: Text(ButtonText, style: const TextStyle(
-        fontWeight: FontWeight.w400,
-        fontSize: 15
-      ), ),
+      child: Text(
+        ButtonText,
+        style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
+      ),
     ),
   );
 }
 
-
-
-
-void ErrorToast(msg){
+void ErrorToast(msg) {
   Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
@@ -78,10 +73,10 @@ void ErrorToast(msg){
       timeInSecForIosWeb: 1,
       backgroundColor: colorRed,
       textColor: colorWhite,
-      fontSize: 16.0
-  );
+      fontSize: 16.0);
 }
-void SuccessToast(msg){
+
+void SuccessToast(msg) {
   Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
@@ -89,6 +84,13 @@ void SuccessToast(msg){
       timeInSecForIosWeb: 1,
       backgroundColor: colorGreen,
       textColor: colorWhite,
-      fontSize: 16.0
+      fontSize: 16.0);
+}
+
+SliverGridDelegateWithFixedCrossAxisCount ProductGridViewStyle() {
+  return const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    mainAxisSpacing: 2,
+    mainAxisExtent: 250
   );
 }
