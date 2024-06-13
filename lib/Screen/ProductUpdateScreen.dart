@@ -7,7 +7,7 @@ import 'ProductGridViewScreen.dart';
 class Productupdatescreen extends StatefulWidget {
   final Map productItem;
 
-  const Productupdatescreen(this.productItem);
+  const Productupdatescreen(this.productItem, {super.key});
 
   @override
   State<Productupdatescreen> createState() => _ProductupdatescreenState();
@@ -68,7 +68,7 @@ class _ProductupdatescreenState extends State<Productupdatescreen> {
       await productUpdateRequest(FormValues, widget.productItem['_id']);
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => productGridViewScreen()),
+          MaterialPageRoute(builder: (context) => const productGridViewScreen()),
           (Route route) => false);
     }
   }
