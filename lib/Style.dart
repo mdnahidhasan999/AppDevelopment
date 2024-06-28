@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 
-InputDecoration AppInputStyle(label){
+InputDecoration AppInputDecoration(label){
   return InputDecoration(
     contentPadding: const EdgeInsets.fromLTRB(20, 10, 10, 20),
-    fillColor: Colors.lime,
-    filled: true,
     border: const OutlineInputBorder(),
     labelText: label
   );
 }
 
-TextStyle HeadTextStyle(){
-  return const TextStyle(
-    fontSize: 28,
-    fontWeight: FontWeight.w800
-  );
-}
+
 
 
 ButtonStyle AppButtonStyle(){
@@ -28,3 +21,18 @@ ButtonStyle AppButtonStyle(){
 
   );
 }
+
+SizedBox SizeBox50(child){
+  return SizedBox(
+    height: 50,
+    width: double.infinity,
+    child: Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(8),
+      child: child,
+
+    ),
+  );
+}
+
+
