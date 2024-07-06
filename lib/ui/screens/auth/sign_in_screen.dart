@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceapp/ui/screens/auth/sign_up_screen.dart';
+import 'package:practiceapp/ui/screens/main_bottom_nav_screen.dart';
 
 import 'package:practiceapp/ui/widgets/background_widget.dart';
 
@@ -53,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 16,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {_onTapNextButtton();},
                     child: const Icon(Icons.arrow_circle_right_outlined),
                   ),
                   const SizedBox(
@@ -110,6 +111,14 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  void _onTapNextButtton(){
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainBottomNavScreen(),
+      ),
+    );
+  }
   void _onTapForgotPasswordButton() {
     Navigator.push(
       context,
