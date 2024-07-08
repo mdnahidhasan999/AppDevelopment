@@ -60,10 +60,13 @@ AppBar profileAppBar(context, [bool fromUpdateProfile = false]) {
     ),
     actions: [
       IconButton(
-        onPressed: () {
+        onPressed: () async {
+          await AuthController.clearAllDate();
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => SignInScreen()),
+              MaterialPageRoute(
+                builder: (context) => const SignInScreen(),
+              ),
               (route) => false);
         },
         icon: const Icon(Icons.logout),

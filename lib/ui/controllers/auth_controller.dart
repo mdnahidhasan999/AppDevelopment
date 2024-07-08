@@ -34,6 +34,10 @@ class AuthController {
     );
     return userModel;
   }
+  static Future<void>clearAllDate() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
+  }
 
   static Future<bool> checkAutoState() async {
     String? token = await getUserAccessToken();

@@ -68,7 +68,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 8,
                     ),
                     TextFormField(
-                      obscureText: false,
+                      obscureText: true,
                       controller: _passwordTEController,
                       decoration: const InputDecoration(hintText: 'Password'),
                       validator: (String? value) {
@@ -159,16 +159,21 @@ class _SignInScreenState extends State<SignInScreen> {
       await AuthController.saveUserAccessToken(loginModel.token!);
 
       await AuthController.saveUserData(loginModel.userModel!);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainBottomNavScreen(),
-        ),
-      );
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainBottomNavScreen(),
+          ),
+        );
+      }
     } else {
-      showSnackBarMessage(context,
-          response.errorMessage ?? 'Email/Password is not correct, Try again');
+      if (mounted) {
+        showSnackBarMessage(
+            context,
+            response.errorMessage ??
+                'Email/Password is not correct, Try again');
+      }
     }
   }
 
