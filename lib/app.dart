@@ -2,12 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:practiceapp/ui/screens/auth/splash_screen.dart';
 import 'package:practiceapp/ui/utility/app_colors.dart';
 
-class TaskManagerApp extends StatelessWidget {
+class TaskManagerApp extends StatefulWidget {
   const TaskManagerApp({super.key});
 
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  State<TaskManagerApp> createState() => _TaskManagerAppState();
+}
+
+class _TaskManagerAppState extends State<TaskManagerApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: const SplashScreen(), theme: LightThemeData());
+    return MaterialApp(
+      navigatorKey: TaskManagerApp.navigatorKey,
+      home: const SplashScreen(),
+      theme: LightThemeData(),
+    );
   }
 
   ThemeData LightThemeData() {
@@ -24,9 +35,10 @@ class TaskManagerApp extends StatelessWidget {
         titleLarge: TextStyle(
             fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
         titleSmall: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey,
-          letterSpacing:0.4
-        ),
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.grey,
+            letterSpacing: 0.4),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
