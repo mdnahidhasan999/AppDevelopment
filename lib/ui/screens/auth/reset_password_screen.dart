@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:practiceapp/ui/screens/auth/sign_in_screen.dart';
 import 'package:practiceapp/ui/widgets/background_widget.dart';
 
+import '../../../data/models/network_response.dart';
+import '../../../data/network_caller/network_caller.dart';
+import '../../../data/utilities/urls.dart';
 import '../../utility/app_colors.dart';
+import '../../widgets/snack_bar_messages.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  const ResetPasswordScreen(
+      {super.key, required this.email, required this.otp});
+
+  final String email, otp;
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -16,6 +23,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController _confirmPasswordTEController =
       TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
+  bool _resetPasswordOnProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +67,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _onTapConfirmButton();
-                    },
-                    child: const Text('Confirm'),
+                  Visibility(
+                    visible: _resetPasswordOnProgress == false,
+                    replacement: const CircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _onTapConfirmButton();
+                      },
+                      child: const Text('Confirm'),
+                    ),
                   ),
                   const SizedBox(
                     height: 36,
@@ -102,16 +114,47 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         MaterialPageRoute(
           builder: (context) => const SignInScreen(),
         ),
-        (route) => false);
+            (route) => false);
   }
 
   void _onTapConfirmButton() {
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SignInScreen(),
-        ),
-        (route) => false);
+    _resetPassword(_passwordTEController.text);
+  }
+
+  Future<void> _resetPassword(String password) async {
+    _resetPasswordOnProgress = true;
+    if (mounted) {
+      setState(() {});
+    }
+    Map<String, dynamic> inputParms = {
+      "email": widget.email,
+      "OTP": widget.otp,
+      "password": password,
+    };
+    NetworkResponse response = await NetworkCaller.postRequest(
+      Urls.resetPassword, body: inputParms,
+    );
+    _resetPasswordOnProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
+    if (response.isSuccess) {
+      if (mounted) {
+        showSnackBarMessage(context,
+            response.errorMessage ?? 'Reset Password! Try again Now');
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignInScreen(),
+            ),
+                (route) => false);
+      }
+    } else {
+      if (mounted) {
+        showSnackBarMessage(context,
+            response.errorMessage ?? 'Reset Password failed! Try again');
+      }
+    }
   }
 
   @override

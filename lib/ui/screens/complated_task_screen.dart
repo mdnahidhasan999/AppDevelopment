@@ -17,8 +17,8 @@ class ComplatedTaskScreen extends StatefulWidget {
 }
 
 class _ComplatedTaskScreenState extends State<ComplatedTaskScreen> {
-  bool _getCompletedTaskInProgress = true;
-  List<TaskModel> completedTasks = [];
+  bool _getCompletedTaskInProgress = false;
+  List<TaskModel> _completedTasks = [];
 
   @override
   void initState() {
@@ -34,13 +34,19 @@ class _ComplatedTaskScreenState extends State<ComplatedTaskScreen> {
         child: Visibility(
           visible: _getCompletedTaskInProgress == false,
           replacement: const CenteredProgressIndicator(),
-          child: ListView.builder(
-            itemCount: completedTasks.length,
-            itemBuilder: (context, index) {
-              return TaskItem(taskModel: completedTasks[index], onUpdateTask: () {
-                _getComletedTasks();
-              },);
-            },
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: ListView.builder(
+              itemCount: _completedTasks.length,
+              itemBuilder: (context, index) {
+                return TaskItem(
+                  taskModel: _completedTasks[index],
+                  onUpdateTask: () {
+                    _getComletedTasks();
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -57,11 +63,11 @@ class _ComplatedTaskScreenState extends State<ComplatedTaskScreen> {
     if (response.isSuccess) {
       TaskListWrapperModel taskListWrapperModel =
           TaskListWrapperModel.fromJson(response.responseData);
-      completedTasks = taskListWrapperModel.taskList ?? [];
+      _completedTasks = taskListWrapperModel.taskList ?? [];
     } else {
       if (mounted) {
-        showSnackBarMessage(
-            context, response.errorMessage ?? 'Get New task failed! Try again');
+        showSnackBarMessage(context,
+            response.errorMessage ?? 'Get Progress task failed! Try again');
       }
     }
     _getCompletedTaskInProgress = false;

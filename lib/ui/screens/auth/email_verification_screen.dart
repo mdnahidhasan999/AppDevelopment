@@ -2,8 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:practiceapp/ui/widgets/background_widget.dart';
 
-
+import '../../../data/models/network_response.dart';
+import '../../../data/network_caller/network_caller.dart';
+import '../../../data/utilities/urls.dart';
 import '../../utility/app_colors.dart';
+import '../../widgets/snack_bar_messages.dart';
 import 'pin_verification_screen.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
@@ -16,6 +19,8 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   final TextEditingController _emailTEController = TextEditingController();
+
+  bool _isEmailVerified = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +57,15 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _onTapConfirmButton();
-                    },
-                    child: const Icon(Icons.arrow_circle_right_outlined),
+                  Visibility(
+                   visible: _isEmailVerified == false,
+                    replacement: const CircularProgressIndicator(),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _onTapConfirmButton();
+                      },
+                      child: const Icon(Icons.arrow_circle_right_outlined),
+                    ),
                   ),
                   const SizedBox(
                     height: 36,
@@ -94,12 +103,42 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   }
 
   void _onTapConfirmButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const PinVerificationScreen(),
-      ),
+    if (_emailTEController.text.isEmpty) {
+      showSnackBarMessage(context, 'Email is required');
+    } else {
+      _verifiedEmail(
+        _emailTEController.text.trim(),
+      );
+    }
+  }
+
+  Future<void> _verifiedEmail(String email) async {
+    _isEmailVerified = true;
+    if (mounted) {
+      setState(() {});
+    }
+    NetworkResponse response = await NetworkCaller.getRequest(
+      Urls.verifyEmail(email),
     );
+    _isEmailVerified = false;
+    if (mounted) {
+      setState(() {});
+    }
+    if (response.isSuccess && response.responseData['status'] == 'success') {
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PinVerificationScreen(email: email),
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        showSnackBarMessage(
+            context, response.errorMessage ?? 'Email verification failed! Try again');
+      }
+    }
   }
 
   @override

@@ -16,12 +16,11 @@ class MainBottomNavScreen extends StatefulWidget {
 
 class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
   int _selectedIndex = 0;
-  final List<Widget> _screens = const[
+  final List<Widget> _screens = const [
     NewTaskScreen(),
     ComplatedTaskScreen(),
     InProgressTaskScreen(),
     CancelledTaskScreen(),
-
   ];
 
   @override
@@ -40,11 +39,11 @@ class _MainBottomNavScreenState extends State<MainBottomNavScreen> {
         selectedItemColor: AppColors.themeColor,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
-
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.abc), label: 'New Task'),
           BottomNavigationBarItem(icon: Icon(Icons.done), label: 'Completed'),
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit), label: 'In Progress'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.ac_unit), label: 'In Progress'),
           BottomNavigationBarItem(icon: Icon(Icons.close), label: 'Cancelled'),
         ],
       ),

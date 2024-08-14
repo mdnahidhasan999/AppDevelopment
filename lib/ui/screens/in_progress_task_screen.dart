@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/network_response.dart';
+import '../../data/models/task_list_wrapper_model.dart';
+import '../../data/models/task_model.dart';
+import '../../data/network_caller/network_caller.dart';
+import '../../data/utilities/urls.dart';
+import '../widgets/centered_progress_indicator.dart';
+import '../widgets/snack_bar_messages.dart';
+import '../widgets/task_item.dart';
 
 class InProgressTaskScreen extends StatefulWidget {
   const InProgressTaskScreen({super.key});
@@ -9,17 +17,58 @@ class InProgressTaskScreen extends StatefulWidget {
 }
 
 class _InProgressTaskScreenState extends State<InProgressTaskScreen> {
+  bool _getInProgressTaskInProgress = false;
+  List<TaskModel> _taskList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _geProgressTasks();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          return null;
-        
-          //return const TaskItem();
-        },
+      body: Visibility(
+        visible: _getInProgressTaskInProgress == false,
+        replacement: const CenteredProgressIndicator(),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ListView.builder(
+            itemCount: _taskList.length,
+            itemBuilder: (context, index) {
+              return TaskItem(
+                  taskModel: _taskList[index],
+                  onUpdateTask: () {
+                    _geProgressTasks();
+                  });
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  Future<void> _geProgressTasks() async {
+    _getInProgressTaskInProgress = true;
+    if (mounted) {
+      setState(() {});
+    }
+    NetworkResponse response =
+        await NetworkCaller.getRequest(Urls.progressTasks);
+    if (response.isSuccess) {
+      TaskListWrapperModel taskListWrapperModel =
+          TaskListWrapperModel.fromJson(response.responseData);
+      _taskList = taskListWrapperModel.taskList ?? [];
+    } else {
+      if (mounted) {
+        showSnackBarMessage(
+            context, response.errorMessage ?? 'Get New task failed! Try again');
+      }
+    }
+    _getInProgressTaskInProgress = false;
+    if (mounted) {
+      setState(() {});
+    }
   }
 }
