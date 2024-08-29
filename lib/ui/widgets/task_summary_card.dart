@@ -28,28 +28,28 @@ class TaskSummaryCard extends StatelessWidget {
   }
 }
 
-Widget _buildSummarySection() {
-  return const SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: [
-        TaskSummaryCard(
-          title: 'New Task',
-          count: '34',
-        ),
-        TaskSummaryCard(
-          title: 'Completed',
-          count: '34',
-        ),
-        TaskSummaryCard(
-          title: 'In Progress',
-          count: '34',
-        ),
-        TaskSummaryCard(
-          title: 'Cancelled',
-          count: '34',
-        ),
-      ],
-    ),
-  );
-}
+// Widget _buildSummarySection() {
+//   return const SingleChildScrollView(
+//     scrollDirection: Axis.horizontal,
+//     child: Row(
+//       children: [
+//         TaskSummaryCard(
+//           title: 'New Task',
+//           count: '34',
+//         ),
+//         TaskSummaryCard(
+//           title: 'Completed',
+//           count: '34',
+//         ),
+//         TaskSummaryCard(
+//           title: 'In Progress',
+//           count: '34',
+//         ),
+//         TaskSummaryCard(
+//           title: 'Cancelled',
+//           count: '34',
+//         ),
+//       ],
+//     ),
+//   );
+// }
