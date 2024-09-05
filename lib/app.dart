@@ -1,63 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:practiceapp/controller_binder.dart';
-import 'package:practiceapp/ui/screens/auth/splash_screen.dart';
-import 'package:practiceapp/ui/utility/app_colors.dart';
 
-class TaskManagerApp extends StatefulWidget {
-  const TaskManagerApp({super.key});
+import 'ui/screens/match_list_screen.dart';
 
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+class TodoApp extends StatelessWidget {
+  const TodoApp({super.key});
 
-  @override
-  State<TaskManagerApp> createState() => _TaskManagerAppState();
-}
-
-class _TaskManagerAppState extends State<TaskManagerApp> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      navigatorKey: TaskManagerApp.navigatorKey,
-      home: const SplashScreen(),
-      theme: lightThemeData(),
-      initialBinding: ControllerBinder(),
+    return MaterialApp(
+      home: const MatchListScreen(),
+      theme: _lightTheme(),
     );
   }
 
-  ThemeData lightThemeData() {
+  ThemeData _lightTheme() {
     return ThemeData(
-      inputDecorationTheme: InputDecorationTheme(
-        fillColor: Colors.white,
-        filled: true,
-        hintStyle: TextStyle(color: Colors.grey.shade400),
-        border: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-        ),
-      ),
-      textTheme: const TextTheme(
-        titleLarge: TextStyle(
-            fontSize: 28, fontWeight: FontWeight.bold, color: Colors.black),
-        titleSmall: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.grey,
-            letterSpacing: 0.4),
-      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.themeColor,
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          foregroundColor: AppColors.whiteColor,
           fixedSize: const Size.fromWidth(double.maxFinite),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.grey,
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          padding: const EdgeInsets.symmetric(vertical: 12),
         ),
       ),
     );

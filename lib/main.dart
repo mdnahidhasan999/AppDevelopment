@@ -11,5 +11,5 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const TaskManagerApp());
+  runApp(const TodoApp());
 }
